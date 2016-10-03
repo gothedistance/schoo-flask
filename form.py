@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, TextAreaField
+from wtforms import StringField, PasswordField, TextAreaField, HiddenField, SubmitField
 from wtforms.validators import DataRequired, Email, Length
 
 class SignupForm(Form):
@@ -32,3 +32,6 @@ class PostForm(Form):
     content = TextAreaField('記事内容', validators=[
         DataRequired(message='記事内容を入力して下さい'),
     ],id='editor')
+    update = SubmitField(label='更新する')
+    delete = SubmitField(label='削除する')
+    id = HiddenField()

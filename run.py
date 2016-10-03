@@ -120,8 +120,7 @@ def add_post():
     if form.validate_on_submit():
         post = Post()
         form.populate_obj(post)
-        #TODO SESSIONに入れる
-        post.user_id = 1
+        post.user_id = session['auth.user']['id']
         db.session.add(post)
         db.session.commit()
         flash('記事を公開しました！')
@@ -137,6 +136,40 @@ def post(post_id):
         abort(404)
 
     return render_template('post.html',post=post)
+
+@app.route('/show_post/<int:post_id>')
+def show_post(post_id):
+    post = Post.query.filter(Post.id == post_id).first()
+    form = PostForm()
+    if not post:
+        abort(404)
+
+    form.title.data = post.title
+    form.content.data = post.content
+    form.id.data = post.id
+
+    return render_template('update_post.html',post=post,form=form)
+
+@app.route('/update_post/',methods=['POST'])
+def update_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post.query.filter(Post.id == form.id.data).first()
+        if form.update.data:
+            # 更新
+            post.title = form.title.data
+            post.content = form.content.data
+            db.session.add(post)
+            flash('記事内容を更新しました')
+        else:
+            # 削除
+            db.session.delete(post)
+            flash('記事を削除しました')
+
+        db.session.commit()
+        return redirect(url_for('.index'))
+
+    return redirect(url_for('.show_post',post_id=form.id.data))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
