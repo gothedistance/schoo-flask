@@ -47,16 +47,19 @@ class Post(db.Model):
     __tablename__ = 'post'
 
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     title = db.Column(db.String,nullable=False)
-    publish_date = db.Column(db.DateTime,nullable=False)
+    publish_date = db.Column(db.DateTime,nullable=False, default=datetime.now)
     content = db.Column(db.Text,nullable=False)
-    created = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    created = db.Column(db.DateTime, nullable=False, )
     modified = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
+    user = db.relationship('User')
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    posts = Post.query.order_by(Post.publish_date.desc()).all()
+    return render_template('index.html',posts=posts)
 
 
 @app.route("/Hello")
@@ -110,6 +113,30 @@ def logout():
     session.clear()
     return redirect(url_for('.login'))
 
+
+@app.route("/add_post",methods=['GET','POST'])
+def add_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post()
+        form.populate_obj(post)
+        #TODO SESSIONに入れる
+        post.user_id = 1
+        db.session.add(post)
+        db.session.commit()
+        flash('記事を公開しました！')
+        return redirect(url_for(".index"))
+
+    return render_template('add_post.html', form=form)
+
+
+@app.route('/post/<int:post_id>')
+def post(post_id):
+    post = Post.query.filter(Post.id == post_id).first()
+    if not post:
+        abort(404)
+
+    return render_template('post.html',post=post)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

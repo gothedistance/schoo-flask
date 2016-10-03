@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField,PasswordField
+from wtforms import StringField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length
 
 class SignupForm(Form):
@@ -23,3 +23,12 @@ class LoginForm(Form):
     password = PasswordField('パスワード', validators=[
         DataRequired(message='パスワードを入力して下さい'),
     ])
+
+
+class PostForm(Form):
+    title = StringField('記事タイトル', validators=[
+        DataRequired(message='タイトルを入力して下さい'),
+    ])
+    content = TextAreaField('記事内容', validators=[
+        DataRequired(message='記事内容を入力して下さい'),
+    ],id='editor')

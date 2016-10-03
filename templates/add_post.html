@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "_formhelper.html" import render_field %}
+
+{% block page_content %}
+<div class="row">
+    <form action="" method="post">
+    <div style="margin-left:auto;margin-right:auto;width:900px;">
+        <div class="panel panel-default">
+             <div class="panel-heading">
+                <h5>ブログ記事を投稿します</h5>
+             </div>
+             <div class="panel-body">
+                 <dl>
+                    {{ render_field(form.title) }}
+                    {{ render_field(form.content) }}
+                    {{ form.hidden_tag() }}
+                 </dl>
+                <button type="submit" class="btn btn-info">記事を追加する</button>
+             </div>
+        </div>
+    </div><!-- ./centering-->
+</div><!-- ./row-->
+{% endblock %}

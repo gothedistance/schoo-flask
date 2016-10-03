@@ -54,5 +54,7 @@
 {% block scripts %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="//cdn.ckeditor.com/4.5.11/basic/ckeditor.js"></script>
+<script>CKEDITOR.replace( 'editor' );</script>
 {% block extrajs %}{% endblock %}
 {% endblock %}

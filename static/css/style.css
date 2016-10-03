@@ -6,3 +6,5 @@ ul.errors li {
   width:300px;
   list-style: none;
 }
+
+#editor {overflow:scroll; max-height:300px;}

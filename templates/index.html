@@ -2,6 +2,12 @@
 
 {% block page_content %}
 <div class="row">
-    <h1>index</h1>
+    <ul class="list-group">
+    {% for post in posts %}
+        <li class="list-group-item">
+            <a href="{{ url_for('.post',post_id=post.id) }}">{{ post.title}} by {{post.user.username}}</a>
+        </li>
+    </ul>
+    {% endfor %}
 </div><!-- ./row-->
 {% endblock %}
