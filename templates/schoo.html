@@ -2,8 +2,8 @@
 
 {% block page_content %}
 <div class="row">
-    {% if 'auth.user' in session %}
-        ようこそ！ {{ session['auth.user'] }} さん！
+    {% if 'username' in session %}
+        ようこそ！ {{ session['username'] }} さん！
     {% endif %}
     <h2> {{ message }} </h2>
 </div><!-- ./row-->

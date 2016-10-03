@@ -3,7 +3,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    session['user.name'] = 'あなたのお前を書いて下さい'
+    session['username'] = 'ここにあなたのお前を書いて下さい'
     return "Hello,World."
 
 @app.route("/schoo")
