@@ -1,3 +1,8 @@
 /** Add Your Own Style!! **/
-MAIN-COLOR:#519548
-SUBCOLOR:#B3CC57
+ul.errors li {
+  background: #f2dede;
+  padding:5px;
+  font-weight: bold;
+  width:300px;
+  list-style: none;
+}

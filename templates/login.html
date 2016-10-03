@@ -7,18 +7,16 @@
     <div style="margin-left:auto;margin-right:auto;width:450px;">
         <div class="panel panel-default">
              <div class="panel-heading">
-                <h5>ミニブログ ユーザー登録</h5>
+                <h5>ミニブログ ログイン</h5>
              </div>
              <div class="panel-body">
-                  <dl>
-                  {{ render_field(form.username) }}
-                  {{ render_field(form.email) }}
-                  {{ render_field(form.password) }}
-                  {{ form.hidden_tag() }}
-                  </dl>
-                <button type="submit" class="btn btn-info">ユーザー登録</button>
+                 <dl>
+                    {{ render_field(form.email) }}
+                    {{ render_field(form.password) }}
+                    {{ form.hidden_tag() }}
+                 </dl>
+                <button type="submit" class="btn btn-info">ログイン</button>
              </div>
-            {{ form.hidden_tag() }}
         </div>
     </div><!-- ./centering-->
 </div><!-- ./row-->
