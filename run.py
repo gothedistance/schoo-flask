@@ -17,11 +17,6 @@ def hash_password(original_pass):
 def verify_password(hash_pass, original_pass):
     return check_password_hash(hash_pass, original_pass)
 
-def get_model_dict(model):
-    return dict((column.name, getattr(model, column.name))
-            for column in model.__table__.columns)
-
-
 class User(db.Model):
     __tablename__ = 'user'
 
@@ -31,16 +26,6 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
     created = db.Column(db.DateTime, nullable=False, default=datetime.now)
     modified = db.Column(db.DateTime, nullable=False, default=datetime.now)
-
-    @staticmethod
-    def login(email, password):
-        '''
-        ログイン実行
-        '''
-        u = User.query.filter_by(email=email).first()
-        if u and verify_password(u.password, password):
-            return u
-        return None
 
 
 class Post(db.Model):
@@ -88,28 +73,6 @@ def signup():
         return redirect(url_for(".signup"))
 
     return render_template('signup.html',form=form)
-
-
-@app.route("/login",methods=['GET','POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        u = User.login(form.email.data, form.password.data)
-        if u is None:
-            flash('ユーザー名とパスワードの組み合わせが違います。')
-            return redirect(url_for('.login'))
-
-        session['auth.user'] = get_model_dict(u)
-        return redirect(url_for('.index'))
-
-    return render_template(
-        'login.html', form=form)
-
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('.login'))
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
