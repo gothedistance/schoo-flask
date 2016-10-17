@@ -1,5 +1,6 @@
 from flask import Flask, render_template, session
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'xNVg}f_m:UmiOB{9bC`SvB9j5N<-3I./'
 
 @app.route("/")
 def index():
