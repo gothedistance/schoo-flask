@@ -48,10 +48,10 @@ class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
-    title = db.Column(db.String,nullable=False)
-    publish_date = db.Column(db.DateTime,nullable=False, default=datetime.now)
+    title = db.Column(db.String,nullable=True)
+    publish_date = db.Column(db.DateTime,nullable=True, default=datetime.now)
     content = db.Column(db.Text,nullable=False)
-    created = db.Column(db.DateTime, nullable=False, )
+    created = db.Column(db.DateTime, nullable=False, default=datetime.now)
     modified = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
     user = db.relationship('User')
@@ -120,6 +120,7 @@ def add_post():
     if form.validate_on_submit():
         post = Post()
         form.populate_obj(post)
+        post.id = None
         post.user_id = session['auth.user']['id']
         db.session.add(post)
         db.session.commit()
