@@ -58,7 +58,7 @@ class Post(db.Model):
 
 @app.route("/")
 def index():
-    posts = None # 非ログイン時
+    posts = [] # 非ログイン時
     if 'auth.user' in session:
         # ログインしているユーザーの記事だけを
         # 一覧で表示するようにしています
