@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, redirect, url_for, flash
+from flask import Flask, render_template, session, redirect, url_for, flash, abort
 from form import *
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
@@ -58,7 +58,12 @@ class Post(db.Model):
 
 @app.route("/")
 def index():
-    posts = Post.query.order_by(Post.publish_date.desc()).all()
+    posts = None # 非ログイン時
+    if 'auth.user' in session:
+        # ログインしているユーザーの記事だけを
+        # 一覧で表示するようにしています
+        posts = Post.query.filter(Post.user_id == session['auth.user']['id']).order_by(Post.publish_date.desc()).all()
+
     return render_template('index.html',posts=posts)
 
 
@@ -124,9 +129,9 @@ def add_post():
         post.user_id = session['auth.user']['id']
         db.session.add(post)
         db.session.commit()
+
         flash('記事を公開しました！')
         return redirect(url_for(".index"))
-
     return render_template('add_post.html', form=form)
 
 
