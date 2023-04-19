@@ -1,12 +1,15 @@
-from flask import Flask, render_template, session, redirect, url_for, flash, abort
-from form import *
+from datetime import datetime
+
+from flask import (Flask, abort, flash, redirect, render_template, session,
+                   url_for)
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, date
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from form import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'xNVg}f_m:UmiOB{9bC`SvB9j5N<-3I./' # CSRFトークン
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///schoo.sqlite' # DBへのパス
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{app.root_path + "/schoo.sqlite"}' # DBへのパス
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -59,6 +62,7 @@ class Post(db.Model):
 @app.route("/")
 def index():
     posts = [] # 非ログイン時
+
     if 'auth.user' in session:
         # ログインしているユーザーの記事だけを
         # 一覧で表示するようにしています
@@ -178,4 +182,4 @@ def update_post():
     return redirect(url_for('.show_post',post_id=form.id.data))
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0',port=5200)
