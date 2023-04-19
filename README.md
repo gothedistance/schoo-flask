@@ -1,4 +1,4 @@
-Flaskのアプリを起動する方法は下記の通りです。Windowsの方は「python」だけで結構です。
+Flask のアプリを起動する方法は下記の通りです。Windows の方は「python」だけで結構です。
 
 ```bat
 python3 run.py
@@ -6,11 +6,10 @@ python3 run.py
 
 起動したら、下記のアドレスにアクセスして下さい。
 
-http://127.0.0.1:5000
+http://127.0.0.1:5200
 
-Flaskの日本語のリファレンスも一応あります。多少古いかも。
-
-https://flask-docs-ja.readthedocs.io/en/latest/
+Flask の日本語のリファレンス一応あります。多少古いかも。
+https://msiz07-flask-docs-ja.readthedocs.io/ja/latest/
 
 ### changelog
 
@@ -21,4 +20,11 @@ https://flask-docs-ja.readthedocs.io/en/latest/
 #### 2021.04.07
 
 - ライブラリを最新化しました。
-- Python3.9.2で動作確認を取っています。
+- Python3.9.2 で動作確認を取っています。
+
+#### 2023.04.19
+
+- ライブラリを最新化し、Python3.11.3 で動作確認を取りました。
+- SQLAlchemy が 2.0 系になりましたが、マイグレーションコストが高いので、SQLAlchemy1 系の最新版、1.4.47 固定にしました。
+- `SQLALCHEMY_DATABASE_URI` で相対パスを指定すると、 `instance` フォルダ配下の相対パスに変わったため、DB ファイルへの参照を絶対パスに変更しました。
+- Mac の場合`AirDrop`が`5000`ポートを使うことがあるので、`5200`に変更しました。
