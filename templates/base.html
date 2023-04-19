@@ -32,7 +32,8 @@
             <li><a href="{{ url_for('.signup') }}">ユーザー登録</a></li>
             <li><a href="{{ url_for('.login') }}">ログイン</a></li>
             {% if 'auth.user' in session %}
-                <li><a href="{{ url_for('.logout') }}"> {{ session['auth.user']['username'] }}さん</a></li>
+                <li><a href="{{ url_for('.add_post') }}"> 記事投稿</a></li>
+                <li><a href="{{ url_for('.logout') }}" onclick="return confirm('ログアウトしてよろしいですか？')"> {{ session['auth.user']['username'] }}さん</a></li>
             {% endif %}
         </ul>
         </div>

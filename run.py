@@ -1,12 +1,15 @@
-from flask import Flask, render_template, session, redirect, url_for, flash
-from form import *
+from datetime import datetime
+
+from flask import (Flask, abort, flash, redirect, render_template, session,
+                   url_for)
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, date
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from form import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'xNVg}f_m:UmiOB{9bC`SvB9j5N<-3I./' # CSRFトークン
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///schoo.sqlite' # DBへのパス
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{app.root_path + "/schoo.sqlite"}' # DBへのパス
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -120,8 +123,8 @@ def add_post():
     if form.validate_on_submit():
         post = Post()
         form.populate_obj(post)
-        #TODO SESSIONに入れる
-        post.user_id = 1
+        post.id = None
+        post.user_id = session['auth.user']['id']
         db.session.add(post)
         db.session.commit()
         flash('記事を公開しました！')
